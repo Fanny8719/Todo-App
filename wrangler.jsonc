@@ -1,0 +1,12 @@
+// Cloudflare deploy settings. "wrangler deploy" uploads the built site in ./dist
+// to Cloudflare's network as a Worker with static assets.
+{
+  "name": "todo-app",
+  "compatibility_date": "2025-06-01",
+  "assets": {
+    "directory": "./dist",
+    // Any unknown URL serves index.html, so React handles the page
+    // (needed for links like password-reset that come back to the app).
+    "not_found_handling": "single-page-application"
+  }
+}

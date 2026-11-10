@@ -1,0 +1,128 @@
+/* Mobile-first styles, matching mockup.html */
+:root {
+  --bg: #f5f6fa;
+  --card: #ffffff;
+  --text: #1d2030;
+  --muted: #6c7086;
+  --line: #e4e6ef;
+  --accent: #4f46e5;
+  --accent-soft: #eef0ff;
+  --danger: #dc2626;
+  --toast: #14151d;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12131a; --card: #1c1e28; --text: #e8e9f0; --muted: #9a9db0;
+    --line: #2c2f3d; --accent-soft: #24233f; --toast: #2c2f3d;
+  }
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); min-height: 100vh; }
+button { font: inherit; cursor: pointer; }
+
+.app { max-width: 640px; margin: 0 auto; padding: 24px 18px 96px; }
+.center { text-align: center; padding: 48px 16px; }
+.muted { color: var(--muted); }
+.small { font-size: 0.85rem; }
+h1 { margin: 0; font-size: 1.7rem; letter-spacing: -0.02em; }
+.sub { margin: 4px 0 0; font-size: 0.95rem; }
+
+/* header + account menu */
+.header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 20px; }
+.menu { position: relative; }
+.avatar-btn {
+  width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); padding: 0; overflow: hidden;
+  background: var(--accent-soft); color: var(--accent); font-weight: 600;
+}
+.avatar-btn img { width: 100%; height: 100%; object-fit: cover; }
+.menu-pop {
+  position: absolute; right: 0; top: 46px; z-index: 5; min-width: 230px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); padding: 12px;
+}
+.who { font-size: 0.85rem; margin-bottom: 4px; word-break: break-all; }
+.via { font-size: 0.75rem; margin-bottom: 10px; }
+
+.progress { height: 4px; background: var(--line); border-radius: 4px; overflow: hidden; margin: 10px 0 20px; }
+.progress span { display: block; height: 100%; background: var(--accent); transition: width 0.3s; }
+
+/* inputs and buttons */
+input[type='text'], input[type='email'], input[type='password'], .edit-input {
+  flex: 1; min-width: 0; width: 100%;
+  font-size: 16px; /* 16px stops iPhone Safari zooming in */
+  padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px;
+  background: var(--card); color: var(--text);
+}
+input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.btn { border: 0; border-radius: 12px; padding: 12px 18px; font-size: 16px; background: var(--accent); color: #fff; }
+.btn:disabled { opacity: 0.45; cursor: default; }
+.btn.ghost { background: var(--card); color: var(--text); border: 1px solid var(--line); }
+.btn.block { width: 100%; }
+.link { background: none; border: 0; color: var(--accent); padding: 0; text-decoration: underline; font-size: inherit; }
+
+.add { display: flex; gap: 8px; margin-bottom: 16px; }
+
+.filters { display: flex; gap: 6px; margin-bottom: 12px; }
+.filters button {
+  border: 1px solid var(--line); background: var(--card); color: var(--muted);
+  border-radius: 999px; padding: 6px 14px; font-size: 14px;
+}
+.filters button.on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+
+/* task rows */
+.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.item {
+  display: flex; align-items: center; gap: 12px; min-height: 58px; padding: 8px 8px 8px 14px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+}
+.check {
+  width: 24px; height: 24px; border-radius: 50%; border: 2px solid #c5c8d6; background: transparent;
+  flex-shrink: 0; display: grid; place-items: center; padding: 0; color: #fff;
+}
+.check svg { width: 14px; height: 14px; }
+.item.done .check { background: var(--accent); border-color: var(--accent); }
+.title { flex: 1; word-break: break-word; line-height: 1.35; cursor: text; }
+.item.done .title { text-decoration: line-through; color: var(--muted); }
+.edit-input { padding: 8px 10px; }
+.icon {
+  background: transparent; border: 0; width: 38px; height: 38px; border-radius: 10px;
+  color: var(--muted); display: grid; place-items: center; flex-shrink: 0;
+}
+.icon:hover { background: var(--bg); color: var(--text); }
+.icon.del:hover { color: var(--danger); }
+.icon svg { width: 18px; height: 18px; }
+
+.empty { text-align: center; padding: 40px 10px; color: var(--muted); }
+
+.toast {
+  position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 20;
+  background: var(--toast); color: #fff; border-radius: 12px; padding: 10px 10px 10px 16px;
+  display: flex; gap: 14px; align-items: center; font-size: 14px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+.toast button { background: transparent; border: 0; color: #a5a2ff; font-weight: 600; padding: 6px 8px; }
+
+.err { background: #fdecec; color: var(--danger); padding: 10px 12px; border-radius: 10px; font-size: 0.92rem; margin-bottom: 12px; cursor: pointer; }
+.note { background: var(--accent-soft); color: #3730a3; padding: 10px 12px; border-radius: 10px; font-size: 0.92rem; }
+
+/* auth screen */
+.auth { max-width: 400px; padding-top: 48px; }
+.brand { width: 52px; height: 52px; border-radius: 16px; background: var(--accent); color: #fff; display: grid; place-items: center; margin-bottom: 18px; }
+.brand svg { width: 26px; height: 26px; }
+.stack { display: grid; gap: 10px; margin-top: 24px; }
+.stack.tight { margin-top: 0; }
+.divider { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 13px; margin: 6px 0; }
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+.google { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.g-dot { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--muted); display: grid; place-items: center; font-size: 11px; font-weight: 700; color: var(--muted); }
+.switch { text-align: center; color: var(--muted); margin-top: 18px; font-size: 0.95rem; }
+.row-end { display: flex; justify-content: flex-end; font-size: 0.9rem; }
+.auth .err { margin-bottom: 0; }
+
+@media (min-width: 768px) {
+  .app { padding-top: 56px; }
+  h1 { font-size: 2.1rem; }
+}

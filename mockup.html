@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Todo Mockup</title>
+<style>
+  :root {
+    --bg: #f5f6fa;
+    --card: #ffffff;
+    --text: #1d2030;
+    --muted: #6c7086;
+    --line: #e4e6ef;
+    --accent: #4f46e5;
+    --accent-soft: #eef0ff;
+    --danger: #dc2626;
+    --ok: #16a34a;
+    --bar: #14151d;
+    --bar-text: #d9dbe6;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); min-height: 100vh; }
+  button { font: inherit; cursor: pointer; }
+
+  /* ---------- mockup chrome (not part of the real app) ---------- */
+  .mock-bar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    padding: 10px 16px; background: var(--bar); color: var(--bar-text); font-size: 13px;
+  }
+  .mock-bar strong { color: #fff; }
+  .mock-bar .spacer { flex: 1; }
+  .seg { display: inline-flex; border: 1px solid #343747; border-radius: 8px; overflow: hidden; }
+  .seg button { background: transparent; color: var(--bar-text); border: 0; padding: 6px 12px; font-size: 13px; }
+  .seg button.on { background: #343747; color: #fff; }
+  .chip-btn { background: transparent; color: var(--bar-text); border: 1px solid #343747; border-radius: 8px; padding: 6px 12px; font-size: 13px; }
+  .chip-btn.on { border-color: #7c78f0; color: #fff; }
+
+  .stage { display: flex; gap: 20px; justify-content: center; align-items: flex-start; padding: 24px 16px 60px; }
+  .device { width: 100%; max-width: 720px; transition: max-width .25s; }
+  .device.phone {
+    max-width: 390px; min-height: 780px; border: 10px solid #1b1c24; border-radius: 44px;
+    background: var(--bg); overflow: hidden; box-shadow: 0 20px 60px rgba(20,21,29,.18);
+  }
+  .device.phone .app { padding-top: 36px; }
+
+  .log {
+    width: 340px; flex-shrink: 0; background: var(--bar); color: var(--bar-text);
+    border-radius: 14px; padding: 14px; font-size: 12px; max-height: 80vh; overflow: auto;
+    position: sticky; top: 70px;
+  }
+  .log h3 { margin: 0 0 4px; color: #fff; font-size: 13px; }
+  .log p.hint { margin: 0 0 12px; color: #8d90a3; }
+  .log ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .log li { border-left: 2px solid #7c78f0; padding: 4px 0 4px 10px; }
+  .log li .t { color: #8d90a3; font-size: 11px; }
+  .log code { display: block; white-space: pre-wrap; color: #c9c6ff; font-family: ui-monospace, Menlo, monospace; margin-top: 2px; }
+  .log .stage-tag { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 6px; background: #2a2c3a; color: #b6b8c8; margin-left: 6px; }
+  .log.hidden { display: none; }
+
+  /* ---------- the app itself ---------- */
+  .app { padding: 24px 18px 48px; }
+  .header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 20px; }
+  h1 { margin: 0; font-size: 1.7rem; letter-spacing: -0.02em; }
+  .muted { color: var(--muted); }
+  .sub { margin: 4px 0 0; font-size: 0.95rem; }
+
+  .avatar-btn {
+    width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line);
+    background: var(--accent-soft); color: var(--accent); font-weight: 600;
+  }
+  .menu { position: relative; }
+  .menu-pop {
+    position: absolute; right: 0; top: 46px; z-index: 5; min-width: 220px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.08); padding: 12px;
+  }
+  .menu-pop .who { font-size: 0.85rem; margin-bottom: 4px; word-break: break-all; }
+  .menu-pop .via { font-size: 0.75rem; margin-bottom: 10px; }
+
+  .progress { height: 4px; background: var(--line); border-radius: 4px; overflow: hidden; margin: 10px 0 20px; }
+  .progress span { display: block; height: 100%; background: var(--accent); transition: width .3s; }
+
+  .add { display: flex; gap: 8px; margin-bottom: 16px; }
+  input[type=text], input[type=email], input[type=password] {
+    flex: 1; min-width: 0; width: 100%; font-size: 16px; padding: 12px 14px;
+    border: 1px solid var(--line); border-radius: 12px; background: var(--card); color: var(--text);
+  }
+  input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .btn { border: 0; border-radius: 12px; padding: 12px 18px; font-size: 16px; background: var(--accent); color: #fff; }
+  .btn:disabled { opacity: .45; cursor: default; }
+  .btn.ghost { background: var(--card); color: var(--text); border: 1px solid var(--line); }
+  .btn.block { width: 100%; }
+
+  .filters { display: flex; gap: 6px; margin-bottom: 12px; }
+  .filters button {
+    border: 1px solid var(--line); background: var(--card); color: var(--muted);
+    border-radius: 999px; padding: 6px 14px; font-size: 14px;
+  }
+  .filters button.on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+
+  .list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .item {
+    display: flex; align-items: center; gap: 12px; min-height: 58px; padding: 8px 8px 8px 14px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  }
+  .check {
+    width: 24px; height: 24px; border-radius: 50%; border: 2px solid #c5c8d6; background: transparent;
+    flex-shrink: 0; display: grid; place-items: center; padding: 0; color: #fff; font-size: 13px;
+  }
+  .item.done .check { background: var(--accent); border-color: var(--accent); }
+  .title { flex: 1; word-break: break-word; line-height: 1.35; }
+  .item.done .title { text-decoration: line-through; color: var(--muted); }
+  .edit-input { flex: 1; padding: 8px 10px; font-size: 16px; }
+  .icon { background: transparent; border: 0; width: 38px; height: 38px; border-radius: 10px; color: var(--muted); display: grid; place-items: center; }
+  .icon:hover { background: var(--bg); color: var(--text); }
+  .icon.del:hover { color: var(--danger); }
+  .icon svg { width: 18px; height: 18px; }
+
+  .empty { text-align: center; padding: 40px 10px; color: var(--muted); }
+  .empty .big { font-size: 2rem; margin-bottom: 6px; }
+
+  .toast {
+    position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 20;
+    background: var(--bar); color: #fff; border-radius: 12px; padding: 10px 10px 10px 16px;
+    display: flex; gap: 14px; align-items: center; font-size: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.2);
+  }
+  .toast button { background: transparent; border: 0; color: #a5a2ff; font-weight: 600; padding: 6px 8px; }
+
+  /* auth */
+  .auth { max-width: 400px; margin: 0 auto; padding-top: 40px; }
+  .brand { width: 52px; height: 52px; border-radius: 16px; background: var(--accent); color: #fff; display: grid; place-items: center; margin-bottom: 18px; }
+  .brand svg { width: 26px; height: 26px; }
+  .auth h1 { margin-bottom: 6px; }
+  .stack { display: grid; gap: 10px; margin-top: 24px; }
+  .divider { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 13px; margin: 6px 0; }
+  .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  .google { display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .g-dot { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--muted); display: grid; place-items: center; font-size: 11px; font-weight: 700; color: var(--muted); }
+  .link { background: none; border: 0; color: var(--accent); padding: 0; text-decoration: underline; font-size: inherit; }
+  .switch { text-align: center; color: var(--muted); margin-top: 18px; font-size: 0.95rem; }
+  .row-between { display: flex; justify-content: flex-end; font-size: 0.9rem; }
+  .err { background: #fdecec; color: var(--danger); padding: 10px 12px; border-radius: 10px; font-size: 0.92rem; }
+  .note { background: var(--accent-soft); color: #3730a3; padding: 10px 12px; border-radius: 10px; font-size: 0.92rem; }
+
+  @media (max-width: 1080px) { .log { display: none; } }
+  @media (max-width: 600px) {
+    .seg, .chip-btn { display: none; }
+    .stage { padding: 0; }
+    .device.phone { border: 0; border-radius: 0; box-shadow: none; max-width: none; min-height: 0; }
+  }
+</style>
+</head>
+<body>
+  <div class="mock-bar">
+    <strong>Todo app mockup</strong>
+    <span>Mock data only. Nothing is saved, any email and password works.</span>
+    <span class="spacer"></span>
+    <div class="seg" role="group" aria-label="Preview size">
+      <button data-view="desktop">Desktop</button>
+      <button data-view="phone" class="on">Phone</button>
+    </div>
+    <button class="chip-btn on" id="logToggle">Backend calls</button>
+  </div>
+
+  <div class="stage">
+    <div class="device phone" id="device"><div class="app" id="app"></div></div>
+    <aside class="log" id="log">
+      <h3>What each click will call</h3>
+      <p class="hint">Right now these are faked. As we wire up the backend, each one becomes a real Supabase call.</p>
+      <ol id="logList"></ol>
+    </aside>
+  </div>
+
+  <div id="toastHost"></div>
+
+<script>
+  // ---------- icons ----------
+  const ICON = {
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>',
+    edit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg>',
+    trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/></svg>',
+    logo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>',
+  };
+
+  // ---------- mock "database" (in memory) ----------
+  const now = Date.now();
+  const db = {
+    users: { 'demo@example.com': { password: 'password', provider: 'email' } },
+    tasks: {
+      'demo@example.com': [
+        { id: 't3', title: 'Set up Google sign-in', completed: false, created_at: now - 1000 },
+        { id: 't2', title: 'Create the todo_tasks table in Supabase', completed: true, created_at: now - 2000 },
+        { id: 't1', title: 'Sketch the app in an HTML mockup', completed: true, created_at: now - 3000 },
+      ],
+    },
+  };
+
+  // ---------- UI state ----------
+  const state = {
+    user: null,          // { email, provider }
+    mode: 'signin',      // 'signin' | 'signup' | 'reset'
+    error: '', notice: '',
+    filter: 'all',       // 'all' | 'active' | 'done'
+    editingId: null,
+    menuOpen: false,
+    draft: '',
+  };
+  let undo = null;       // { task, index, timer }
+
+  const app = document.getElementById('app');
+  const esc = (s) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const myTasks = () => db.tasks[state.user.email] || (db.tasks[state.user.email] = []);
+
+  // ---------- backend-call log ----------
+  function log(label, code, stage) {
+    const li = document.createElement('li');
+    const t = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    li.innerHTML = `<span class="t">${t}</span> ${esc(label)}<span class="stage-tag">${stage}</span><code>${esc(code)}</code>`;
+    document.getElementById('logList').prepend(li);
+  }
+
+  // ---------- rendering ----------
+  function render() {
+    app.innerHTML = state.user ? todoView() : authView();
+    const editEl = app.querySelector('[data-edit]');
+    if (editEl) { editEl.focus(); editEl.select(); }
+    else if (state.focusAdd) { app.querySelector('[data-form="add"] input')?.focus(); }
+    state.focusAdd = false;
+  }
+
+  function authView() {
+    const m = state.mode;
+    const title = m === 'signin' ? 'Welcome back' : m === 'signup' ? 'Create your account' : 'Reset password';
+    const sub = m === 'signin' ? 'Sign in to see your tasks' : m === 'signup' ? 'It takes about ten seconds' : "We'll email you a reset link";
+    return `
+      <div class="auth">
+        <div class="brand">${ICON.logo}</div>
+        <h1>${title}</h1>
+        <p class="muted sub">${sub}</p>
+        <div class="stack">
+          ${m !== 'reset' ? `
+            <button class="btn ghost block google" data-action="google"><span class="g-dot">G</span> Continue with Google</button>
+            <div class="divider">or use email</div>` : ''}
+          <form class="stack" style="margin-top:0" data-form="auth">
+            <input type="email" name="email" placeholder="Email" autocomplete="email" required />
+            ${m !== 'reset' ? `<input type="password" name="password" placeholder="Password (6+ characters)" minlength="6" autocomplete="${m === 'signin' ? 'current-password' : 'new-password'}" required />` : ''}
+            ${m === 'signin' ? `<div class="row-between"><button type="button" class="link" data-action="mode" data-mode="reset">Forgot password?</button></div>` : ''}
+            <button class="btn block" type="submit">${m === 'signin' ? 'Sign in' : m === 'signup' ? 'Create account' : 'Send reset link'}</button>
+          </form>
+          ${state.error ? `<div class="err">${esc(state.error)}</div>` : ''}
+          ${state.notice ? `<div class="note">${esc(state.notice)}</div>` : ''}
+        </div>
+        <p class="switch">
+          ${m === 'signin'
+            ? `New here? <button class="link" data-action="mode" data-mode="signup">Create an account</button>`
+            : `Already have an account? <button class="link" data-action="mode" data-mode="signin">Sign in</button>`}
+        </p>
+        ${m === 'signin' ? `<p class="switch" style="font-size:.85rem">Try <b>demo@example.com</b> / <b>password</b> to see sample tasks</p>` : ''}
+      </div>`;
+  }
+
+  function todoView() {
+    const all = myTasks();
+    const done = all.filter((t) => t.completed).length;
+    const shown = all.filter((t) => state.filter === 'all' || (state.filter === 'done' ? t.completed : !t.completed));
+    const pct = all.length ? Math.round((done / all.length) * 100) : 0;
+    const initial = state.user.email[0].toUpperCase();
+
+    return `
+      <div class="header">
+        <div>
+          <h1>My Tasks</h1>
+          <p class="muted sub">${all.length ? `${done} of ${all.length} done` : 'Nothing here yet'}</p>
+        </div>
+        <div class="menu">
+          <button class="avatar-btn" data-action="menu" aria-label="Account">${initial}</button>
+          ${state.menuOpen ? `
+            <div class="menu-pop">
+              <div class="who">${esc(state.user.email)}</div>
+              <div class="via muted">Signed in with ${state.user.provider === 'google' ? 'Google' : 'email'}</div>
+              <button class="btn ghost block" data-action="signout">Sign out</button>
+            </div>` : ''}
+        </div>
+      </div>
+
+      <div class="progress"><span style="width:${pct}%"></span></div>
+
+      <form class="add" data-form="add">
+        <input type="text" name="title" placeholder="What needs doing?" maxlength="500" value="${esc(state.draft)}" aria-label="New task" />
+        <button class="btn" type="submit" ${state.draft.trim() ? '' : 'disabled'}>Add</button>
+      </form>
+
+      ${all.length ? `
+        <div class="filters">
+          ${['all', 'active', 'done'].map((f) => `<button data-action="filter" data-filter="${f}" class="${state.filter === f ? 'on' : ''}">${f[0].toUpperCase() + f.slice(1)}</button>`).join('')}
+        </div>` : ''}
+
+      ${shown.length ? `<ul class="list">${shown.map(itemView).join('')}</ul>` : `
+        <div class="empty">
+          <div class="big">${all.length ? '🎉' : '📝'}</div>
+          ${all.length ? (state.filter === 'done' ? 'Nothing finished yet' : 'All caught up') : 'Add your first task above'}
+        </div>`}
+    `;
+  }
+
+  function itemView(t) {
+    const editing = state.editingId === t.id;
+    return `
+      <li class="item ${t.completed ? 'done' : ''}" data-id="${t.id}">
+        <button class="check" data-action="toggle" aria-label="${t.completed ? 'Mark as not done' : 'Mark as done'}">${t.completed ? ICON.check : ''}</button>
+        ${editing
+          ? `<input type="text" class="edit-input" value="${esc(t.title)}" maxlength="500" data-edit aria-label="Edit task" />`
+          : `<span class="title" data-action="edit">${esc(t.title)}</span>`}
+        ${editing ? '' : `<button class="icon" data-action="edit" aria-label="Edit">${ICON.edit}</button>`}
+        <button class="icon del" data-action="delete" aria-label="Delete">${ICON.trash}</button>
+      </li>`;
+  }
+
+  // ---------- toast with undo ----------
+  function showUndo() {
+    const host = document.getElementById('toastHost');
+    host.innerHTML = `<div class="toast">Task deleted <button data-undo>Undo</button></div>`;
+    host.querySelector('[data-undo]').onclick = () => {
+      if (!undo) return;
+      clearTimeout(undo.timer);
+      myTasks().splice(undo.index, 0, undo.task);
+      log('Undo delete', `supabase.from('todo_tasks').insert({ id, title, completed })`, 'Stage 2');
+      undo = null; host.innerHTML = ''; render();
+    };
+  }
+
+  // ---------- actions ----------
+  function saveEdit(input) {
+    const id = input.closest('.item').dataset.id;
+    const task = myTasks().find((t) => t.id === id);
+    const title = input.value.trim();
+    state.editingId = null;
+    if (task && title && title !== task.title) {
+      task.title = title;
+      log('Edit task', `supabase.from('todo_tasks')\n  .update({ title: '${title}' })\n  .eq('id', '${id}')`, 'Stage 2');
+    }
+    render();
+  }
+
+  app.addEventListener('click', (e) => {
+    const el = e.target.closest('[data-action]');
+    if (!el) { if (state.menuOpen && !e.target.closest('.menu-pop')) { state.menuOpen = false; render(); } return; }
+    const action = el.dataset.action;
+    const id = el.closest('.item')?.dataset.id;
+
+    if (action === 'mode') { state.mode = el.dataset.mode; state.error = state.notice = ''; }
+    if (action === 'google') {
+      state.user = { email: 'you@gmail.com', provider: 'google' };
+      log('Continue with Google', `supabase.auth.signInWithOAuth({ provider: 'google' })`, 'Stage 3');
+    }
+    if (action === 'menu') state.menuOpen = !state.menuOpen;
+    if (action === 'signout') {
+      log('Sign out', `supabase.auth.signOut()`, 'Stage 2');
+      Object.assign(state, { user: null, mode: 'signin', menuOpen: false, filter: 'all', draft: '', error: '', notice: '' });
+    }
+    if (action === 'filter') state.filter = el.dataset.filter;
+    if (action === 'toggle') {
+      const t = myTasks().find((x) => x.id === id);
+      t.completed = !t.completed;
+      log(t.completed ? 'Mark complete' : 'Mark not complete', `supabase.from('todo_tasks')\n  .update({ completed: ${t.completed} })\n  .eq('id', '${id}')`, 'Stage 2');
+    }
+    if (action === 'edit') state.editingId = id;
+    if (action === 'delete') {
+      const list = myTasks();
+      const index = list.findIndex((x) => x.id === id);
+      const [task] = list.splice(index, 1);
+      if (undo) clearTimeout(undo.timer);
+      undo = { task, index, timer: setTimeout(() => { undo = null; document.getElementById('toastHost').innerHTML = ''; }, 5000) };
+      log('Delete task', `supabase.from('todo_tasks')\n  .delete()\n  .eq('id', '${id}')`, 'Stage 2');
+      showUndo();
+    }
+    render();
+  });
+
+  app.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const data = Object.fromEntries(new FormData(form));
+
+    if (form.dataset.form === 'add') {
+      const title = (data.title || '').trim();
+      if (!title) return;
+      myTasks().unshift({ id: 't' + Date.now(), title, completed: false, created_at: Date.now() });
+      state.draft = ''; state.focusAdd = true; state.filter = state.filter === 'done' ? 'all' : state.filter;
+      log('Add task', `supabase.from('todo_tasks')\n  .insert({ title: '${title}' })\n  .select().single()`, 'Stage 2');
+      return render();
+    }
+
+    // auth form
+    const email = (data.email || '').trim().toLowerCase();
+    state.error = state.notice = '';
+    if (state.mode === 'reset') {
+      state.notice = `If ${email} has an account, a reset link is on its way.`;
+      log('Reset password', `supabase.auth.resetPasswordForEmail('${email}')`, 'Stage 4');
+    } else if (state.mode === 'signup') {
+      if (db.users[email]) state.error = 'That email already has an account. Try signing in.';
+      else {
+        db.users[email] = { password: data.password, provider: 'email' };
+        state.user = { email, provider: 'email' };
+        log('Create account', `supabase.auth.signUp({ email: '${email}', password })`, 'Stage 2');
+      }
+    } else {
+      const u = db.users[email];
+      if (u && u.password !== data.password) state.error = 'Wrong email or password.';
+      else {
+        if (!u) db.users[email] = { password: data.password, provider: 'email' }; // mockup: any login works
+        state.user = { email, provider: 'email' };
+        log('Sign in', `supabase.auth.signInWithPassword({ email: '${email}', password })`, 'Stage 2');
+      }
+    }
+    if (state.user) {
+      log('Load my tasks', `supabase.from('todo_tasks')\n  .select('*')\n  .order('created_at', { ascending: false })`, 'Stage 2');
+    }
+    render();
+  });
+
+  app.addEventListener('input', (e) => {
+    if (e.target.name === 'title' && e.target.closest('[data-form="add"]')) {
+      state.draft = e.target.value;
+      app.querySelector('[data-form="add"] .btn').disabled = !state.draft.trim();
+    }
+  });
+
+  app.addEventListener('keydown', (e) => {
+    if (!e.target.matches('[data-edit]')) return;
+    if (e.key === 'Enter') { e.preventDefault(); saveEdit(e.target); }
+    if (e.key === 'Escape') { state.editingId = null; render(); }
+  });
+  app.addEventListener('focusout', (e) => {
+    if (e.target.matches('[data-edit]') && state.editingId) saveEdit(e.target);
+  });
+
+  // ---------- mockup chrome ----------
+  document.querySelectorAll('[data-view]').forEach((b) => b.addEventListener('click', () => {
+    document.querySelectorAll('[data-view]').forEach((x) => x.classList.toggle('on', x === b));
+    document.getElementById('device').classList.toggle('phone', b.dataset.view === 'phone');
+  }));
+  document.getElementById('logToggle').addEventListener('click', (e) => {
+    e.currentTarget.classList.toggle('on');
+    document.getElementById('log').classList.toggle('hidden');
+  });
+
+  render();
+</script>
+</body>
+</html>
