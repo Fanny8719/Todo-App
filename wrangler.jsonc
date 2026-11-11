@@ -8,5 +8,12 @@
     // Any unknown URL serves index.html, so React handles the page
     // (needed for links like password-reset that come back to the app).
     "not_found_handling": "single-page-application"
-  }
+  },
+  // Serve the app on your own subdomain. Cloudflare creates the DNS record
+  // and the HTTPS certificate automatically on the next deploy.
+  "routes": [
+    { "pattern": "todo.fannycynthia.com", "custom_domain": true }
+  ],
+  // Keep the original todo-app.fanny-cynthia.workers.dev address working too.
+  "workers_dev": true
 }

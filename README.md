@@ -85,7 +85,7 @@ Every deploy after that:
 npm run deploy         # builds the app, then uploads ./dist to Cloudflare
 ```
 
-It prints the live address, something like `https://todo-app.<your-subdomain>.workers.dev`.
+The app is live at **https://todo.fannycynthia.com** (custom domain, set in `wrangler.jsonc`) and also at `https://todo-app.fanny-cynthia.workers.dev`. Pushing to GitHub also redeploys automatically.
 
 Then, in Supabase under Authentication → URL Configuration, set **Site URL** to that live address and add `https://todo-app.<your-subdomain>.workers.dev/**` to **Redirect URLs**. Keep the localhost entry so local development still works.
 
