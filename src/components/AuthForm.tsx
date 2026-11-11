@@ -24,12 +24,13 @@ export default function AuthForm() {
     setNotice('')
   }
 
-  // Google sign-in sends the browser to Google, then back to this app.
+  // Google and Facebook sign-in work the same way. The browser goes to the
+  // provider, the person approves, and Supabase sends them back to this app.
   // When it comes back, App's getSession() picks up the new session.
-  async function signInWithGoogle() {
+  async function signInWith(provider: 'google' | 'facebook') {
     setError('')
     const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
+      provider,
       options: { redirectTo: window.location.origin },
     })
     if (error) setError(error.message)
@@ -75,8 +76,11 @@ export default function AuthForm() {
       <div className="stack">
         {mode !== 'reset' && (
           <>
-            <button type="button" className="btn ghost block google" onClick={signInWithGoogle}>
+            <button type="button" className="btn ghost block google" onClick={() => signInWith('google')}>
               <span className="g-dot">G</span> Continue with Google
+            </button>
+            <button type="button" className="btn ghost block google" onClick={() => signInWith('facebook')}>
+              <span className="g-dot">f</span> Continue with Facebook
             </button>
             <div className="divider">or use email</div>
           </>

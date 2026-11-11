@@ -1,6 +1,6 @@
 # Todo App (React + Supabase learning project)
 
-**Stack:** React (Vite + TypeScript) · Supabase Auth (Google + email/password) · Supabase Postgres · Cloudflare hosting
+**Stack:** React (Vite + TypeScript) · Supabase Auth (Google, Facebook, email/password) · Supabase Postgres · Cloudflare hosting
 
 ## Run it
 
@@ -28,6 +28,7 @@ To try it on your phone, run `npm run dev -- --host` and open the "Network" URL 
 - [x] Stage 2. Supabase database, email/password sign-in, row-level security
 - [x] Stage 2b. Mockup design ported to React (filters, progress, undo delete, account menu, password reset)
 - [x] Stage 3. Google sign-in
+- [ ] Stage 3c. Facebook sign-in (button added, needs Meta app + Supabase setup)
 - [ ] Stage 3b. Code on GitHub
 - [ ] Stage 4. Mobile polish (optional PWA)
 - [ ] Stage 5. Deploy to Cloudflare

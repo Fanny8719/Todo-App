@@ -9,7 +9,8 @@ export default function UserMenu({ session }: { session: Session }) {
   const user = session.user
   const email = user.email ?? ''
   const avatar = user.user_metadata?.avatar_url as string | undefined // Google provides a photo
-  const provider = user.app_metadata?.provider === 'google' ? 'Google' : 'email'
+  const PROVIDER_NAMES: Record<string, string> = { google: 'Google', facebook: 'Facebook' }
+  const provider = PROVIDER_NAMES[user.app_metadata?.provider ?? ''] ?? 'email'
 
   // Close the menu when clicking anywhere outside it
   useEffect(() => {
