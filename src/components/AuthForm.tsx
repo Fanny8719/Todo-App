@@ -115,6 +115,10 @@ export default function AuthForm() {
           <>Already have an account? <button className="link" onClick={() => switchMode('signin')}>Sign in</button></>
         )}
       </p>
+
+      <p className="legal muted">
+        <a href="/privacy">Privacy policy</a> · <a href="/data-deletion">Delete your data</a>
+      </p>
     </main>
   )
 }

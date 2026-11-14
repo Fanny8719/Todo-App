@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Delete Your Data · Todo</title>
+<style>
+  :root { --bg:#f5f6fa; --card:#fff; --text:#1d2030; --muted:#6c7086; --line:#e4e6ef; --accent:#4f46e5; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#12131a; --card:#1c1e28; --text:#e8e9f0; --muted:#9a9db0; --line:#2c2f3d; --accent:#8b85ff; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  main { max-width:720px; margin:0 auto; padding:40px 18px 64px; }
+  h1 { font-size:1.9rem; letter-spacing:-0.02em; margin:0 0 4px; }
+  h2 { font-size:1.15rem; margin:32px 0 8px; }
+  .muted { color:var(--muted); }
+  a { color:var(--accent); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin-top:20px; }
+  ul, ol { padding-left:22px; }
+  footer { margin-top:40px; font-size:.9rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Delete your data</h1>
+  <p class="muted">Todo at todo.fannycynthia.com</p>
+
+  <div class="card">
+    <h2 style="margin-top:0">Delete individual tasks</h2>
+    <p>Sign in and tap the bin icon next to any task. It's removed from our database right away.</p>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">Delete your whole account</h2>
+    <ol>
+      <li>Send an email to <a href="mailto:fanny.cynthia@gmail.com?subject=Delete%20my%20Todo%20account">fanny.cynthia@gmail.com</a> with the subject <strong>"Delete my Todo account"</strong>.</li>
+      <li>Send it from the email address you use to sign in, or include that address in the message.</li>
+      <li>We'll permanently delete your account and all of your tasks within 30 days, and reply to confirm.</li>
+    </ol>
+    <p>Deleting your account removes your email, name, profile photo and every task you created.</p>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">Signed in with Facebook or Google?</h2>
+    <p>You can also remove Todo's access from your account settings. On Facebook, go to <strong>Settings &amp; privacy → Settings → Apps and websites</strong> and remove Todo. On Google, go to <strong>myaccount.google.com → Security → Third-party connections</strong>. This stops future sign-ins. To also erase what's already stored, send the email above.</p>
+  </div>
+
+  <footer class="muted"><a href="/">Back to Todo</a> · <a href="/privacy">Privacy policy</a></footer>
+</main>
+</body>
+</html>
