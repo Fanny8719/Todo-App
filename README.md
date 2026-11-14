@@ -86,9 +86,24 @@ Every deploy after that:
 npm run deploy         # builds the app, then uploads ./dist to Cloudflare
 ```
 
-The app is live at **https://todo.fannycynthia.com** (custom domain, set in `wrangler.jsonc`) and also at `https://todo-app.fanny-cynthia.workers.dev`. Pushing to GitHub also redeploys automatically.
+The app lives at **https://todo.fannycynthia.com** (set in `wrangler.jsonc`). Pushing to the `main` branch on GitHub also rebuilds and redeploys it automatically.
 
-Then, in Supabase under Authentication → URL Configuration, set **Site URL** to that live address and add `https://todo-app.<your-subdomain>.workers.dev/**` to **Redirect URLs**. Keep the localhost entry so local development still works.
+### Where the address is configured
+
+| Service | Setting | Value |
+|---|---|---|
+| Cloudflare | `wrangler.jsonc` routes | `todo.fannycynthia.com` (custom domain) |
+| Supabase | Authentication → URL Configuration → Site URL | `https://todo.fannycynthia.com` |
+| Supabase | Redirect URLs | `https://todo.fannycynthia.com/**` and `http://localhost:5173/**` |
+| Google Cloud | OAuth client → Authorized JavaScript origins | `https://todo.fannycynthia.com`, `http://localhost:5173` |
+| Google Cloud | OAuth client → Authorized redirect URIs | `https://pugzjnrxgdnibhozafaa.supabase.co/auth/v1/callback` |
+| Google Cloud | Branding → home page, privacy policy, authorized domain | `https://todo.fannycynthia.com`, `/privacy`, `fannycynthia.com` |
+| Meta | App settings → Basic → App domains | `fannycynthia.com`, `pugzjnrxgdnibhozafaa.supabase.co` |
+| Meta | Privacy policy / data deletion URLs | `https://todo.fannycynthia.com/privacy`, `/data-deletion` |
+| Meta | Website platform → Site URL | `https://todo.fannycynthia.com/` |
+| Meta | Facebook Login → Valid OAuth Redirect URIs | `https://pugzjnrxgdnibhozafaa.supabase.co/auth/v1/callback` |
+
+The app code itself never hard-codes the address. It uses `window.location.origin`, so it works the same at `localhost:5173` and on the live site.
 
 ### How it works
 
