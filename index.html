@@ -4,12 +4,72 @@
     <meta charset="UTF-8" />
     <!-- This viewport tag is what makes the page behave properly on phones -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- What shows in Google results and browser tabs -->
+    <title>Todo · A simple to-do list that syncs across your devices</title>
+    <meta name="description" content="Todo is a free, simple to-do list for your phone and computer. Add, complete, edit and delete tasks, and sign in with Google, Facebook or email to sync them everywhere." />
+    <link rel="canonical" href="https://todo.fannycynthia.com/" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Icons and "Add to Home Screen" -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#4f46e5" />
-    <title>Todo</title>
+
+    <!-- Link previews (Facebook, LinkedIn, WhatsApp, iMessage, Slack, X) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Todo" />
+    <meta property="og:url" content="https://todo.fannycynthia.com/" />
+    <meta property="og:title" content="Todo · A simple to-do list that syncs across your devices" />
+    <meta property="og:description" content="Add, complete, edit and delete tasks on your phone or computer. Sign in with Google, Facebook or email." />
+    <meta property="og:image" content="https://todo.fannycynthia.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Todo app logo with the tagline: a simple to-do list that syncs across your phone and computer" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Structured data: tells Google and AI assistants exactly what this site is -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Todo",
+        "url": "https://todo.fannycynthia.com/",
+        "description": "A free, simple to-do list web app that syncs tasks across phone and computer. Sign in with Google, Facebook or email.",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "Any (web browser)",
+        "browserRequirements": "Requires JavaScript",
+        "image": "https://todo.fannycynthia.com/og-image.png",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CAD" },
+        "featureList": [
+          "Add, complete, edit and delete tasks",
+          "Undo a delete",
+          "Filter by all, active or done",
+          "Sign in with Google, Facebook or email",
+          "Tasks sync across devices and stay private to your account"
+        ]
+      }
+    </script>
   </head>
   <body>
-    <!-- React renders the whole app inside this one div -->
-    <div id="root"></div>
+    <!-- React renders the whole app inside this one div. The text below is what
+         search engines, AI crawlers and no-JavaScript visitors see. React
+         replaces it as soon as the app loads. -->
+    <div id="root">
+      <main style="max-width:640px;margin:0 auto;padding:48px 18px;font-family:system-ui,-apple-system,sans-serif;color:#1d2030">
+        <h1>Todo</h1>
+        <p>A free, simple to-do list that syncs across your phone and computer.</p>
+        <ul>
+          <li>Add, complete, edit and delete tasks, with undo</li>
+          <li>Filter by all, active or done, and see your progress</li>
+          <li>Sign in with Google, Facebook, or an email and password</li>
+          <li>Your tasks are private to your account</li>
+        </ul>
+        <p><a href="/privacy">Privacy policy</a> · <a href="/data-deletion">Delete your data</a></p>
+        <noscript><p>Todo needs JavaScript turned on to sign in and manage tasks.</p></noscript>
+      </main>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

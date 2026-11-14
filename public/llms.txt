@@ -1,0 +1,20 @@
+# Todo
+
+> Todo is a free, simple to-do list web app at https://todo.fannycynthia.com. It works in any web browser on phones and computers, and your tasks sync between devices.
+
+## What it does
+
+- Add tasks, mark them complete, edit them and delete them (with undo)
+- Filter tasks by All, Active or Done, with a progress bar
+- Sign in with Google, Facebook, or an email and password
+- Each person's tasks are private to their account
+
+## Pages
+
+- [Todo app](https://todo.fannycynthia.com/): sign in and manage your tasks
+- [Privacy policy](https://todo.fannycynthia.com/privacy): what data is collected and how it's used
+- [Delete your data](https://todo.fannycynthia.com/data-deletion): how to delete tasks or a whole account
+
+## Built with
+
+React and TypeScript, Supabase (authentication and Postgres database), hosted on Cloudflare.

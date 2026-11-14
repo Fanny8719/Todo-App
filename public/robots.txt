@@ -1,0 +1,6 @@
+# Search engines and AI assistants are welcome to read the public pages.
+# Everyone's tasks are behind sign-in, so there's nothing private to crawl.
+User-agent: *
+Allow: /
+
+Sitemap: https://todo.fannycynthia.com/sitemap.xml
